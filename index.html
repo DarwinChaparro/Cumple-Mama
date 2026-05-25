@@ -408,7 +408,11 @@
     pointer-events: none;
     z-index: 2;
   }
-  .memory-card .pic img { width: 100%; height: 100%; object-fit: cover; }
+  .memory-card .pic img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center top;  /* mostrar desde arriba: no corta la frente */
+  }
   .memory-card .quote {
     font-family: 'Italianno', cursive;
     font-size: 38px; color: var(--cream);
@@ -444,12 +448,12 @@
   /* === ESCENA 5: FLORES === */
   #scene-flowers .bouquet-stage {
     position: relative; width: 100%;
-    max-width: 420px; margin: 0 auto;
-    aspect-ratio: 4/5;
+    max-width: 420px; margin: 8px auto 0;
+    aspect-ratio: 3/2;  /* más ancho/menos alto → flores menos abajo */
   }
   #scene-flowers .bouquet {
     position: absolute; width: 60%;
-    height: auto; bottom: 0;
+    height: auto; top: 0;  /* anclar arriba, no abajo */
     filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
   }
   #scene-flowers .bouquet.b1 { left: 5%; transform: rotate(-3deg); }
