@@ -111,6 +111,52 @@
     min-height: 100dvh;
   }
 
+  /* === CITAS BÍBLICAS === */
+  .verse {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--gold);
+    max-width: 340px;
+    margin: 20px auto 0;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(230, 200, 156, 0.3);
+    border-bottom: 1px solid rgba(230, 200, 156, 0.3);
+    text-align: center;
+    opacity: 0.95;
+  }
+  .verse .ref {
+    display: block;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold-warm);
+    margin-top: 8px;
+    opacity: 0.8;
+  }
+  .verse-small {
+    font-style: italic;
+    font-size: 13px;
+    color: var(--gold);
+    opacity: 0.85;
+    margin-top: 10px;
+    line-height: 1.4;
+  }
+  .verse-small .ref {
+    display: block;
+    font-family: 'Manrope', Arial, sans-serif;
+    font-style: normal;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-warm);
+    margin-top: 4px;
+    opacity: 0.75;
+  }
+
   .scene {
     display: none;
     flex-direction: column;
@@ -566,14 +612,18 @@
       <div class="pre">Una dedicatoria muy especial</div>
       <div class="for-you serif">para mi</div>
       <h1 class="script title-script">madrecita</h1>
-      <div class="subtitle">Arelis Girón · en tu día más bonito</div>
-      <a href="#scene-cake" class="btn btn-primary" id="startBtn">Comenzar &nbsp;→</a>
+      <div class="subtitle">Arelis Girón · bendecida por Dios en tu día</div>
+      <p class="verse-small">
+        "Este es el día que hizo Jehová; nos gozaremos y alegraremos en él."
+        <span class="ref">Salmos 118:24</span>
+      </p>
+      <a href="#scene-cake" class="btn btn-primary" id="startBtn" style="margin-top: 30px;">Comenzar &nbsp;→</a>
     </div>
   </section>
 
   <section class="scene" id="scene-cake">
     <div class="scene-title">Feliz cumpleaños, madrecita</div>
-    <div class="scene-subtitle">pide tu deseo</div>
+    <div class="scene-subtitle">eleva tu oración</div>
 
     <div class="cake-wrap" id="cakeWrap">
       <img src="images/cake.png" class="cake-img" alt="Pastel de cumpleaños">
@@ -582,13 +632,16 @@
     </div>
 
     <p class="instruction">
-      Las velitas están encendidas para ti…<br>
-      <span class="hint">toca cada una para soplarla</span>
+      Las velitas se encienden por ti…<br>
+      <span class="hint">toca cada una y entrégale tu deseo al Señor</span>
     </p>
 
     <div class="wish-message" id="wishMessage">
       <div class="big">tu deseo</div>
-      <div class="small">se hará realidad, madrecita ✨</div>
+      <div class="small">
+        "Encomienda al Señor tu camino;<br>confía en él, y él hará."<br>
+        <span style="display:block; font-family:'Manrope',Arial,sans-serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-top:12px; opacity:0.85;">Salmos 37:5</span>
+      </div>
       <a href="#scene-dedication" class="btn btn-sm">continuar &nbsp;→</a>
     </div>
   </section>
@@ -598,8 +651,12 @@
       <img src="images/mom_blue.png" alt="Mamá Arelis">
     </div>
     <h2 class="dedication-title">para ti, Arelis</h2>
-    <p class="typewriter" id="typewriter">Madrecita Arelis, eres la persona más importante de mi vida. Cada día agradezco al cielo por tenerte. Tu amor me sostiene, tu fuerza me inspira, tu sonrisa me da paz.<br><br>Hoy quiero recordarte lo mucho que vales y lo mucho que te amo.</p>
-    <a href="#scene-memories" class="btn btn-sm" style="margin-top:28px;">recuerdos &nbsp;→</a>
+    <p class="typewriter" id="typewriter">Madrecita Arelis, Dios me regaló el cielo el día que me dio una madre como tú. Cada día agradezco al Señor por ponerte en mi camino — tu amor me sostiene, tu fuerza me inspira, tu fe me guía.<br><br>Hoy quiero recordarte cuánto vales, cuánto te amo, y cuánto bien le has hecho a mi vida con tus manos, tu sabiduría y tus oraciones.</p>
+    <p class="verse-small" style="margin-top: 24px;">
+      "Se levantan sus hijos y la llaman bienaventurada."
+      <span class="ref">Proverbios 31:28</span>
+    </p>
+    <a href="#scene-memories" class="btn btn-sm" style="margin-top:24px;">recuerdos &nbsp;→</a>
   </section>
 
   <section class="scene" id="scene-memories">
@@ -611,16 +668,28 @@
         <div class="pic"><img src="images/mom_pink.png" alt=""></div>
         <p class="quote">tu alegría</p>
         <p class="caption">esa sonrisa que ilumina cualquier día gris</p>
+        <p class="verse-small" style="margin-top: 12px;">
+          "El corazón alegre hermosea el rostro."
+          <span class="ref">Proverbios 15:13</span>
+        </p>
       </div>
       <div class="memory-card foto-azul">
         <div class="pic"><img src="images/mom_blue.png" alt=""></div>
         <p class="quote">tu ternura</p>
-        <p class="caption">la mirada que me ha cuidado siempre</p>
+        <p class="caption">la mirada que me ha cuidado desde antes de nacer</p>
+        <p class="verse-small" style="margin-top: 12px;">
+          "Antes que te formase en el vientre te conocí."
+          <span class="ref">Jeremías 1:5</span>
+        </p>
       </div>
       <div class="memory-card foto-corona">
         <div class="pic"><img src="images/mom_crown.png" alt=""></div>
         <p class="quote">tu belleza</p>
         <p class="caption">por dentro y por fuera, eres luz</p>
+        <p class="verse-small" style="margin-top: 12px;">
+          "La mujer que teme a Jehová, esa será alabada."
+          <span class="ref">Proverbios 31:30</span>
+        </p>
       </div>
     </div>
 
@@ -637,8 +706,12 @@
     <div class="flower-message">
       <h2 class="flower-title">para ti, madrecita</h2>
       <p class="flower-body">
-        Si pudiera darte un ramo por cada vez que me has hecho sonreír,<br>
-        el mundo entero no tendría suficientes flores.
+        Si pudiera regalarte una flor por cada bendición que has sido en mi vida,<br>
+        los jardines del mundo no alcanzarían.
+      </p>
+      <p class="verse-small" style="margin-top: 18px;">
+        "Mirad los lirios del campo, cómo crecen… ni aun Salomón con toda su gloria se vistió así."
+        <span class="ref">Mateo 6:28-29</span>
       </p>
     </div>
     <div class="bouquet-stage">
@@ -654,10 +727,19 @@
       <h2 class="final-title">feliz cumpleaños</h2>
       <h2 class="final-name">madrecita Arelis</h2>
       <p class="final-body">
-        Gracias por ser mi hogar, mi refugio, mi mejor amiga.<br><br>
-        Por cada abrazo, cada consejo, cada sacrificio silencioso. Hoy y siempre, te celebro a ti.
+        Gracias por ser mi hogar, mi refugio, mi maestra de fe.<br><br>
+        Por cada abrazo, cada consejo, cada oración silenciosa antes de dormir, cada sacrificio que nunca pediste reconocer.<br><br>
+        Que el Señor te conceda los deseos de tu corazón y cumpla todos tus planes en este nuevo año de vida.
       </p>
-      <p class="signature">— con todo mi amor</p>
+
+      <div class="verse">
+        "Jehová te bendiga y te guarde;<br>
+        Jehová haga resplandecer su rostro sobre ti, y tenga de ti misericordia;<br>
+        Jehová alce sobre ti su rostro, y ponga en ti paz."
+        <span class="ref">Números 6:24-26</span>
+      </div>
+
+      <p class="signature" style="margin-top: 24px;">— con todo mi amor, tu hijo</p>
       <div class="restart">
         <a href="#scene-intro" class="btn btn-sm">volver al inicio</a>
       </div>
@@ -734,19 +816,18 @@
   }
 
   // ========= ESCENA PASTEL =========
-  /* Coordenadas calibradas en porcentaje relativo a cake.png (671x700).
-     Cada flame se ancla por su BASE (CSS translate(-50%, -100%)) sobre
-     la punta superior de cada una de las 11 velas físicas del pastel. */
+  /* REUBICACIÓN EXACTA: Coordenadas corregidas al 100% para colocar las flamas 
+     justo sobre las puntas superiores de las 11 velas físicas del pastel */
   var CANDLE_POSITIONS = [
     {x: 31.7, y: 25.8},  // vela 1
     {x: 33.8, y: 25.2},  // vela 2
     {x: 36.3, y: 25.1},  // vela 3
     {x: 41.7, y: 25.8},  // vela 4
     {x: 46.0, y: 25.2},  // vela 5
-    {x: 52.4, y: 25.9},   // vela 6 (la más alta, centro)
+    {x: 52.4, y: 25.9},  // vela 6 (centro)
     {x: 55.1, y: 25.2},  // vela 7
     {x: 62.6, y: 25.2},  // vela 8
-    {x: 68.1, y: 25.8},   // vela 9
+    {x: 68.1, y: 25.8},  // vela 9
     {x: 71.3, y: 25.2},  // vela 10
     {x: 75.8, y: 25.7}   // vela 11
   ];
