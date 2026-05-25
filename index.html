@@ -241,7 +241,6 @@
     filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6))
             drop-shadow(0 0 80px rgba(230, 200, 156, 0.15));
   }
-  /* Ajuste visual: mezcla el fondo defectuoso con el color oscuro de la página */
   .cake-img { 
     width: 100%; 
     height: auto; 
@@ -415,16 +414,30 @@
     pointer-events: none;
     z-index: 2;
   }
-  /* AJUSTE POSICIÓN 2: Cambiado de 'center 20%' a 'center center' para no cortar la frente de la blusa rosa */
-  /* Ajuste de mezcla: Ayuda a mimetizar el fondo mal borrado de la blusa blanca y rosa */
+  
+  /* Ajuste de mezcla base para la galería */
   .memory-card .pic img { 
     width: 100%; 
     height: 100%; 
     object-fit: cover; 
-    object-position: center center;
     mix-blend-mode: screen;
     filter: brightness(1.08) contrast(1.02);
   }
+
+  /* AJUSTE SEPARADO DE POSICIONES PARA CADA FOTO DE LA GALERÍA */
+  /* 1. Camisa rosa: Se centra completamente para que no se corte la frente */
+  .foto-rosa .pic img {
+    object-position: center center;
+  }
+  /* 2. Vestido azul: Se mantiene en su altura ideal superior */
+  .foto-azul .pic img {
+    object-position: center 20%;
+  }
+  /* 3. Corona blanca: Se mantiene en su altura ideal superior */
+  .foto-corona .pic img {
+    object-position: center 20%;
+  }
+
   .memory-card .quote {
     font-family: 'Italianno', cursive;
     font-size: 38px; color: var(--cream);
@@ -458,7 +471,6 @@
   .dot.active::after { transform: scale(1.5); }
 
   /* === ESCENA 5: FLORES === */
-  /* AJUSTE POSICIÓN 4: Rediseñado el escenario de las flores con margen negativo y nueva proporción para subirlas */
   #scene-flowers .bouquet-stage {
     position: relative; 
     width: 100%;
@@ -621,17 +633,17 @@
     <div class="scene-subtitle script" style="font-family:'Italianno',cursive;font-size:44px;color:var(--cream);margin-bottom:18px;line-height:1;">así te recuerdo</div>
 
     <div class="gallery" id="gallery">
-      <div class="memory-card active">
+      <div class="memory-card active foto-rosa">
         <div class="pic"><img src="images/mom_pink.png" alt=""></div>
         <p class="quote">tu alegría</p>
         <p class="caption">esa sonrisa que ilumina cualquier día gris</p>
       </div>
-      <div class="memory-card">
+      <div class="memory-card foto-azul">
         <div class="pic"><img src="images/mom_blue.png" alt=""></div>
         <p class="quote">tu ternura</p>
         <p class="caption">la mirada que me ha cuidado siempre</p>
       </div>
-      <div class="memory-card">
+      <div class="memory-card foto-corona">
         <div class="pic"><img src="images/mom_crown.png" alt=""></div>
         <p class="quote">tu belleza</p>
         <p class="caption">por dentro y por fuera, eres luz</p>
@@ -754,8 +766,7 @@
   }
 
   // ========= ESCENA PASTEL =========
-  /* AJUSTE POSICIÓN 3 (Velas): Nuevas coordenadas exactas calculadas 
-     para acoplarse físicamente a las mechas del pastel real */
+  /* Coordenadas adaptadas para acoplarse físicamente a las mechas del pastel real */
   var CANDLE_POSITIONS = [
     {x: 35, y: 44}, {x: 37, y: 41}, {x: 41, y: 43},
     {x: 44, y: 40}, {x: 47, y: 45}, {x: 52, y: 44},
@@ -861,7 +872,7 @@
     });
   }
 
-  // ========= PÉTALOS =========
+  // ========= PÍTALOS =========
   var petalsStarted = false;
   function startPetals() {
     if (petalsStarted) return;
