@@ -584,6 +584,20 @@
     padding: 0;
     -webkit-appearance: none;
     appearance: none;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .audio-toggle:hover, .audio-toggle:active {
+    background: rgba(230, 200, 156, 0.2);
+    transform: scale(1.05);
+  }
+  .audio-toggle.playing {
+    border-color: var(--gold);
+    box-shadow: 0 0 18px rgba(230, 200, 156, 0.4);
+    animation: musicPulse 2s ease-in-out infinite;
+  }
+  @keyframes musicPulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(230, 200, 156, 0.3); }
+    50%      { box-shadow: 0 0 24px rgba(230, 200, 156, 0.6); }
   }
 
   @media (max-height: 700px) {
@@ -974,59 +988,78 @@
     }, 500);
   }
 
-  // ========= AUDIO =========
-  var audioCtx = null, audioOn = false, audioInterval = null;
-  function noteFreq(n) { return 440 * Math.pow(2, (n - 69) / 12); }
-  function playNote(freq, duration, when, gain) {
-    if (gain === undefined) gain = 0.06;
-    var o = audioCtx.createOscillator();
-    var g = audioCtx.createGain();
-    o.type = 'sine';
-    o.frequency.value = freq;
-    g.gain.setValueAtTime(0, audioCtx.currentTime + when);
-    g.gain.linearRampToValueAtTime(gain, audioCtx.currentTime + when + 0.03);
-    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + when + duration);
-    o.connect(g).connect(audioCtx.destination);
-    o.start(audioCtx.currentTime + when);
-    o.stop(audioCtx.currentTime + when + duration + 0.05);
-  }
-  var MELODY = [
-    [60, 0.5], [60, 0.5], [62, 1], [60, 1], [65, 1], [64, 2],
-    [60, 0.5], [60, 0.5], [62, 1], [60, 1], [67, 1], [65, 2],
-    [60, 0.5], [60, 0.5], [72, 1], [69, 1], [65, 1], [64, 1], [62, 2],
-    [70, 0.5], [70, 0.5], [69, 1], [65, 1], [67, 1], [65, 2]
-  ];
-  function playMelodyOnce() {
-    var t = 0, tempo = 0.4;
-    MELODY.forEach(function(item) {
-      playNote(noteFreq(item[0]), item[1] * tempo, t, 0.05);
-      t += item[1] * tempo;
-    });
-    return t * 1000;
-  }
+  // ========= AUDIO (MP3 - Mauricio Uribe, Feliz Cumpleaños Mamá) =========
+  var bgAudio = null;
+  var audioOn = false;
+
   function setupAudio() {
     var btn = document.getElementById('audioToggle');
     if (!btn) return;
-    btn.addEventListener('click', function() {
-      if (!audioCtx) {
-        var AC = window.AudioContext || window.webkitAudioContext;
-        if (!AC) return;
-        try { audioCtx = new AC(); } catch(e) { return; }
-      }
-      audioOn = !audioOn;
-      if (audioOn) {
-        btn.textContent = '♫';
-        var loop = function() {
-          if (!audioOn) return;
-          var dur = playMelodyOnce();
-          audioInterval = setTimeout(loop, dur + 1000);
-        };
-        loop();
+
+    // Crear elemento <audio> oculto
+    bgAudio = new Audio('audio/feliz_cumpleanos_mama.mp3');
+    bgAudio.loop = true;
+    bgAudio.volume = 0.55;       // 55% para que no tape los textos
+    bgAudio.preload = 'auto';
+
+    var toggleMusic = function() {
+      if (!audioOn) {
+        var p = bgAudio.play();
+        if (p && p.catch) {
+          p.then(function() {
+            audioOn = true;
+            btn.textContent = '♫';
+            btn.classList.add('playing');
+          }).catch(function(err) {
+            console.warn('No se pudo reproducir el audio:', err);
+          });
+        } else {
+          audioOn = true;
+          btn.textContent = '♫';
+          btn.classList.add('playing');
+        }
       } else {
+        bgAudio.pause();
+        audioOn = false;
         btn.textContent = '♪';
-        if (audioInterval) clearTimeout(audioInterval);
+        btn.classList.remove('playing');
       }
+    };
+
+    btn.addEventListener('click', toggleMusic);
+
+    // Iniciar música automáticamente al pulsar "Comenzar" en la intro
+    // (esto cuenta como interacción válida del usuario, permitida por los navegadores)
+    var startBtn = document.getElementById('startBtn');
+    if (startBtn) {
+      startBtn.addEventListener('click', function() {
+        if (!audioOn) toggleMusic();
+      });
+    }
+
+    // Fade-out elegante cuando llega a la escena final
+    window.addEventListener('hashchange', function() {
+      // No detenemos la música, solo bajamos volumen suavemente en escena final
+      // para que la bendición se lea con calma. Es opcional, déjala así si prefieres
+      // que siga sonando fuerte hasta el final.
+      // if (location.hash === '#scene-final' && audioOn) {
+      //   fadeVolume(0.3, 1500);
+      // }
     });
+  }
+
+  function fadeVolume(target, duration) {
+    if (!bgAudio) return;
+    var start = bgAudio.volume;
+    var diff = target - start;
+    var steps = 20;
+    var stepTime = duration / steps;
+    var i = 0;
+    var iv = setInterval(function() {
+      i++;
+      bgAudio.volume = Math.max(0, Math.min(1, start + diff * (i / steps)));
+      if (i >= steps) clearInterval(iv);
+    }, stepTime);
   }
 
   // ========= INYECCIÓN DE KEYFRAMES DINÁMICOS =========
