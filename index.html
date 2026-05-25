@@ -241,7 +241,14 @@
     filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6))
             drop-shadow(0 0 80px rgba(230, 200, 156, 0.15));
   }
-  .cake-img { width: 100%; height: auto; display: block; }
+  /* Ajuste visual: mezcla el fondo defectuoso con el color oscuro de la página */
+  .cake-img { 
+    width: 100%; 
+    height: auto; 
+    display: block; 
+    mix-blend-mode: screen; 
+    filter: brightness(1.1) contrast(1.05);
+  }
   .glow-base {
     position: absolute;
     bottom: 12%; left: 50%;
@@ -408,10 +415,15 @@
     pointer-events: none;
     z-index: 2;
   }
-  .memory-card .pic img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center top;  /* mostrar desde arriba: no corta la frente */
+  /* AJUSTE POSICIÓN 2: Cambiado de 'center 20%' a 'center center' para no cortar la frente de la blusa rosa */
+  /* Ajuste de mezcla: Ayuda a mimetizar el fondo mal borrado de la blusa blanca y rosa */
+  .memory-card .pic img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    object-position: center center;
+    mix-blend-mode: screen;
+    filter: brightness(1.08) contrast(1.02);
   }
   .memory-card .quote {
     font-family: 'Italianno', cursive;
@@ -446,14 +458,17 @@
   .dot.active::after { transform: scale(1.5); }
 
   /* === ESCENA 5: FLORES === */
+  /* AJUSTE POSICIÓN 4: Rediseñado el escenario de las flores con margen negativo y nueva proporción para subirlas */
   #scene-flowers .bouquet-stage {
-    position: relative; width: 100%;
-    max-width: 420px; margin: 8px auto 0;
-    aspect-ratio: 3/2;  /* más ancho/menos alto → flores menos abajo */
+    position: relative; 
+    width: 100%;
+    max-width: 420px; 
+    margin: -40px auto 0; 
+    aspect-ratio: 4/3;
   }
   #scene-flowers .bouquet {
     position: absolute; width: 60%;
-    height: auto; top: 0;  /* anclar arriba, no abajo */
+    height: auto; bottom: 0;
     filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
   }
   #scene-flowers .bouquet.b1 { left: 5%; transform: rotate(-3deg); }
@@ -739,11 +754,13 @@
   }
 
   // ========= ESCENA PASTEL =========
+  /* AJUSTE POSICIÓN 3 (Velas): Nuevas coordenadas exactas calculadas 
+     para acoplarse físicamente a las mechas del pastel real */
   var CANDLE_POSITIONS = [
-    {x: 32, y: 12}, {x: 36, y: 15}, {x: 40, y: 14},
-    {x: 44, y: 21}, {x: 48, y: 16}, {x: 52, y: 22},
-    {x: 56, y: 13}, {x: 60, y: 20}, {x: 64, y: 13},
-    {x: 67, y: 13}, {x: 70, y: 9}
+    {x: 35, y: 44}, {x: 37, y: 41}, {x: 41, y: 43},
+    {x: 44, y: 40}, {x: 47, y: 45}, {x: 52, y: 44},
+    {x: 58, y: 41}, {x: 61, y: 43}, {x: 65, y: 41},
+    {x: 68, y: 43}, {x: 71, y: 41}
   ];
   var FLAME_IMGS = ['images/flame1.png', 'images/flame2.png', 'images/flame3.png'];
   var cakeSetup = false;
