@@ -41,7 +41,7 @@
     position: relative;
   }
 
-  /* === FONDO ATMOSFÉRICO (z-index bajo, NUNCA bloquea clicks) === */
+  /* === FONDO ATMOSFÉRICO === */
   .sky {
     position: fixed; inset: 0;
     z-index: 0;
@@ -81,7 +81,6 @@
     90% { opacity: 0.6; }
     100% { transform: translateY(-10vh) translateX(40px) scale(0.5); opacity: 0; }
   }
-  /* Corazones SOLO se muestran en escena final (controlado por JS, z-index bajo) */
   .hearts {
     position: fixed; inset: 0;
     z-index: 1;
@@ -103,7 +102,7 @@
     100% { transform: translateY(-20vh) translateX(40px) scale(0.5); opacity: 0; }
   }
 
-  /* === MAIN — CONTENIDO PRINCIPAL === */
+  /* === MAIN === */
   main {
     position: relative;
     z-index: 10;
@@ -112,14 +111,6 @@
     min-height: 100dvh;
   }
 
-  /* ============================================================
-     SISTEMA DE ESCENAS:
-     - Por defecto TODAS las escenas están ocultas (display:none)
-     - La intro tiene display:flex por default
-     - Cuando una escena se vuelve :target (via #hash) se muestra
-     - JS también añade clase .active como mecanismo redundante
-     - Esto significa: FUNCIONA SIN JAVASCRIPT
-     ============================================================ */
   .scene {
     display: none;
     flex-direction: column;
@@ -131,14 +122,9 @@
     padding: 28px 22px;
     text-align: center;
   }
-  /* Mostrar intro por default si no hay otro target */
   #scene-intro { display: flex; }
-  /* Cuando hay :target, mostrar esa */
   .scene:target { display: flex; }
-  /* Y ocultar la intro porque ya hay un target activo
-     (requiere :has — fallback: usar la clase .active controlada por JS) */
   body:has(.scene:target) #scene-intro { display: none; }
-  /* Sistema redundante con clase .active controlada por JS */
   .scene.js-active { display: flex !important; }
   .scene.js-inactive { display: none !important; }
 
@@ -147,10 +133,7 @@
   .serif { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 300; letter-spacing: 0.04em; }
   .small-cap { font-family: 'Manrope', Arial, sans-serif; font-weight: 300; font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); opacity: 0.9; }
 
-  /* ============================================================
-     BOTONES — SIN ANIMATIONS DE ENTRADA PROBLEMÁTICAS
-     Son enlaces <a> con apariencia de botón. Funcionan SIEMPRE.
-     ============================================================ */
+  /* === BOTONES === */
   .btn {
     display: inline-block;
     background: transparent;
@@ -168,7 +151,6 @@
     -webkit-appearance: none;
     appearance: none;
     margin-top: 10px;
-    /* opacity:1 SIEMPRE, sin animaciones de entrada */
     opacity: 1;
   }
   .btn:hover, .btn:active, .btn:focus {
@@ -178,7 +160,6 @@
     outline: none;
   }
   .btn-primary {
-    /* pulse SOLO en box-shadow, no toca opacity ni transform */
     animation: pulseRing 3s ease-in-out infinite;
     animation-delay: 3s;
   }
@@ -188,7 +169,7 @@
   }
   .btn-sm { padding: 12px 32px; font-size: 11px; }
 
-  /* === ESCENA 1: APERTURA === */
+  /* === ESCENA 1 === */
   #scene-intro .frame { position: relative; max-width: 380px; padding: 20px 28px; }
   #scene-intro .ornament {
     width: 80px; height: 1px;
@@ -238,10 +219,14 @@
     position: relative;
     width: min(92vw, 380px);
     margin: 0 auto;
-    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6))
-            drop-shadow(0 0 80px rgba(230, 200, 156, 0.15));
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.7));
   }
-  .cake-img { width: 100%; height: auto; display: block; }
+  /* Quitamos mix-blend-mode para que los cirios oscuros no se vuelvan invisibles */
+  .cake-img { 
+    width: 100%; 
+    height: auto; 
+    display: block; 
+  }
   .glow-base {
     position: absolute;
     bottom: 12%; left: 50%;
@@ -256,9 +241,10 @@
     width: 100%; height: 100%;
     pointer-events: none;
   }
+  /* Ajustamos dimensiones del contenedor de la flama */
   .candle {
     position: absolute;
-    width: 26px; height: 38px;
+    width: 20px; height: 25px;
     pointer-events: auto;
     cursor: pointer;
     transform: translate(-50%, -100%);
@@ -266,29 +252,28 @@
   .candle::before {
     content: '';
     position: absolute;
-    inset: -10px;
+    inset: -6px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 200, 100, 0.5) 0%, transparent 70%);
-    opacity: 0.7;
-    animation: candleGlow 1.5s ease-in-out infinite alternate;
+    background: radial-gradient(circle, rgba(255, 190, 90, 0.6) 0%, transparent 70%);
+    opacity: 0.8;
+    animation: candleGlow 1.2s ease-in-out infinite alternate;
   }
   @keyframes candleGlow {
-    from { opacity: 0.5; transform: scale(1); }
-    to { opacity: 0.9; transform: scale(1.15); }
+    from { opacity: 0.6; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1.2); }
   }
   .candle img {
     position: absolute;
     width: 100%; height: 100%;
     object-fit: contain;
-    object-position: bottom center;
     transform-origin: bottom center;
-    animation: flicker 0.18s ease-in-out infinite alternate;
+    animation: flicker 0.15s ease-in-out infinite alternate;
   }
   .candle.out img { display: none; }
   .candle.out::before { display: none; }
   @keyframes flicker {
     0% { transform: scale(1, 1) translateX(0); }
-    100% { transform: scale(1.05, 0.95) translateX(1px); }
+    100% { transform: scale(1.1, 0.9) translateX(1px); }
   }
   .smoke {
     position: absolute;
@@ -340,7 +325,7 @@
     padding: 0 20px; text-align: center;
   }
 
-  /* === ESCENA 3: DEDICATORIA === */
+  /* === ESCENA 3 === */
   #scene-dedication { padding: 40px 24px; }
   #scene-dedication .photo-frame {
     width: min(80vw, 260px);
@@ -395,7 +380,7 @@
     overflow: hidden;
     border: 1px solid rgba(230, 200, 156, 0.4);
     box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-    background: var(--bg-mid);
+    background: #0d0c22; /* Fondo sólido muy oscuro para anular la cuadrícula gris */
     position: relative;
     margin-bottom: 22px;
   }
@@ -408,11 +393,29 @@
     pointer-events: none;
     z-index: 2;
   }
-  .memory-card .pic img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center top;  /* mostrar desde arriba: no corta la frente */
+  
+  /* Ajuste de renderizado para las fotos */
+  .memory-card .pic img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
   }
+
+  /* AJUSTE MANUAL INDEPENDIENTE DE ENCUADRE */
+  /* 1. Camisa rosa: La centramos y usamos contrates/filtros para fusionar la cuadrícula con el fondo oscuro */
+  .foto-rosa .pic img {
+    object-position: center center;
+    filter: contrast(1.15) brightness(0.95) drop-shadow(0 0 10px #0a0a1f);
+  }
+  /* 2. Vestido azul: Encuadre nativo superior */
+  .foto-azul .pic img {
+    object-position: center 20%;
+  }
+  /* 3. Corona blanca: Encuadre nativo superior */
+  .foto-corona .pic img {
+    object-position: center 20%;
+  }
+
   .memory-card .quote {
     font-family: 'Italianno', cursive;
     font-size: 38px; color: var(--cream);
@@ -447,13 +450,15 @@
 
   /* === ESCENA 5: FLORES === */
   #scene-flowers .bouquet-stage {
-    position: relative; width: 100%;
-    max-width: 420px; margin: 8px auto 0;
-    aspect-ratio: 3/2;  /* más ancho/menos alto → flores menos abajo */
+    position: relative; 
+    width: 100%;
+    max-width: 420px; 
+    margin: -40px auto 0; 
+    aspect-ratio: 4/3;
   }
   #scene-flowers .bouquet {
     position: absolute; width: 60%;
-    height: auto; top: 0;  /* anclar arriba, no abajo */
+    height: auto; bottom: 0;
     filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
   }
   #scene-flowers .bouquet.b1 { left: 5%; transform: rotate(-3deg); }
@@ -471,7 +476,7 @@
     margin: 0 auto; line-height: 1.5;
   }
 
-  /* === ESCENA 6: FINAL === */
+  /* === ESCENA 6 === */
   #scene-final .final-content { text-align: center; max-width: 400px; }
   #scene-final .final-pre {
     font-family: 'Manrope', Arial, sans-serif;
@@ -555,7 +560,6 @@
 <button class="audio-toggle" id="audioToggle" type="button" aria-label="Música">♪</button>
 
 <main>
-  <!-- ESCENA 1: APERTURA -->
   <section class="scene" id="scene-intro">
     <div class="frame">
       <div class="ornament"></div>
@@ -567,7 +571,6 @@
     </div>
   </section>
 
-  <!-- ESCENA 2: PASTEL -->
   <section class="scene" id="scene-cake">
     <div class="scene-title">Feliz cumpleaños, madrecita</div>
     <div class="scene-subtitle">pide tu deseo</div>
@@ -590,7 +593,6 @@
     </div>
   </section>
 
-  <!-- ESCENA 3: DEDICATORIA -->
   <section class="scene" id="scene-dedication">
     <div class="photo-frame">
       <img src="images/mom_blue.png" alt="Mamá Arelis">
@@ -600,23 +602,22 @@
     <a href="#scene-memories" class="btn btn-sm" style="margin-top:28px;">recuerdos &nbsp;→</a>
   </section>
 
-  <!-- ESCENA 4: RECUERDOS -->
   <section class="scene" id="scene-memories">
     <div class="scene-title small-cap">Recuerdos del corazón</div>
     <div class="scene-subtitle script" style="font-family:'Italianno',cursive;font-size:44px;color:var(--cream);margin-bottom:18px;line-height:1;">así te recuerdo</div>
 
     <div class="gallery" id="gallery">
-      <div class="memory-card active">
+      <div class="memory-card active foto-rosa">
         <div class="pic"><img src="images/mom_pink.png" alt=""></div>
         <p class="quote">tu alegría</p>
         <p class="caption">esa sonrisa que ilumina cualquier día gris</p>
       </div>
-      <div class="memory-card">
+      <div class="memory-card foto-azul">
         <div class="pic"><img src="images/mom_blue.png" alt=""></div>
         <p class="quote">tu ternura</p>
         <p class="caption">la mirada que me ha cuidado siempre</p>
       </div>
-      <div class="memory-card">
+      <div class="memory-card foto-corona">
         <div class="pic"><img src="images/mom_crown.png" alt=""></div>
         <p class="quote">tu belleza</p>
         <p class="caption">por dentro y por fuera, eres luz</p>
@@ -632,7 +633,6 @@
     <a href="#scene-flowers" class="btn btn-sm" style="margin-top:20px;">flores para ti &nbsp;→</a>
   </section>
 
-  <!-- ESCENA 5: FLORES -->
   <section class="scene" id="scene-flowers">
     <div class="flower-message">
       <h2 class="flower-title">para ti, madrecita</h2>
@@ -648,7 +648,6 @@
     <a href="#scene-final" class="btn btn-sm" style="margin-top:24px;">un último mensaje &nbsp;→</a>
   </section>
 
-  <!-- ESCENA 6: FINAL -->
   <section class="scene" id="scene-final">
     <div class="final-content">
       <div class="final-pre">con todo mi corazón</div>
@@ -703,12 +702,11 @@
     }
   }
 
-  // ========= NAVEGACIÓN DE ESCENAS (HASH + .js-active redundante) =========
+  // ========= NAVEGACIÓN DE ESCENAS =========
   function handleHashChange() {
     var hash = location.hash.replace('#', '');
     var target = hash || 'scene-intro';
 
-    // Quitar todas las clases
     var scenes = document.querySelectorAll('.scene');
     for (var i = 0; i < scenes.length; i++) {
       scenes[i].classList.remove('js-active', 'js-inactive');
@@ -718,7 +716,6 @@
     if (!active) {
       active = document.getElementById('scene-intro');
     }
-    // Marcar activa la correcta, ocultar las demás
     for (var i = 0; i < scenes.length; i++) {
       if (scenes[i] === active) {
         scenes[i].classList.add('js-active');
@@ -727,10 +724,8 @@
       }
     }
 
-    // Scroll al top
     window.scrollTo(0, 0);
 
-    // Trigger por escena
     var name = active.id.replace('scene-', '');
     if (name === 'cake') setupCake();
     if (name === 'memories') startPetals();
@@ -739,11 +734,13 @@
   }
 
   // ========= ESCENA PASTEL =========
+  /* REUBICACIÓN EXACTA: Coordenadas corregidas al 100% para colocar las flamas 
+     justo sobre las puntas superiores de las 11 velas físicas del pastel */
   var CANDLE_POSITIONS = [
-    {x: 32, y: 12}, {x: 36, y: 15}, {x: 40, y: 14},
-    {x: 44, y: 21}, {x: 48, y: 16}, {x: 52, y: 22},
-    {x: 56, y: 13}, {x: 60, y: 20}, {x: 64, y: 13},
-    {x: 67, y: 13}, {x: 70, y: 9}
+    {x: 34.2, y: 28.5}, {x: 36.8, y: 29.5}, {x: 40.2, y: 27.5},
+    {x: 43.6, y: 30.0}, {x: 46.0, y: 44.0}, {x: 49.0, y: 29.5}, 
+    {x: 53.6, y: 29.5}, {x: 55.4, y: 27.0}, {x: 59.8, y: 30.0}, 
+    {x: 61.2, y: 28.5}, {x: 63.2, y: 29.0}
   ];
   var FLAME_IMGS = ['images/flame1.png', 'images/flame2.png', 'images/flame3.png'];
   var cakeSetup = false;
@@ -955,9 +952,8 @@
     setupGallery();
     setupAudio();
 
-    // Manejar navegación por hash
     window.addEventListener('hashchange', handleHashChange);
-    handleHashChange(); // estado inicial
+    handleHashChange();
   }
 
   if (document.readyState === 'loading') {
